@@ -1,0 +1,9 @@
+Objectives:
+
+	Hive:
+
+	Application Areas of Hive
+
+	Hive Architecture
+
+	Identify the situations when to use and when not to use Hive

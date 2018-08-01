@@ -1,0 +1,77 @@
+drop table if exists loan_data;
+create external table loan_data
+(
+id decimal(18,0) ,
+member_id decimal(18,0) ,
+loan_amnt decimal(18,0) ,
+funded_amnt decimal(18,0) ,
+funded_amnt_inv decimal(18,0) ,
+term string ,
+int_rate string ,
+installment decimal(10,2) ,
+grade string ,
+sub_grade string ,
+emp_title string ,
+emp_length string ,
+home_ownership string ,
+annual_inc decimal(18,0) ,
+is_inc_v string ,
+issue_d string ,
+loan_status string ,
+pymnt_plan string ,
+url string ,
+desc string ,
+purpose string ,
+title string ,
+zip_code string ,
+addr_state string ,
+dti decimal(5,2) ,
+delinq_2yrs tinyint ,
+earliest_cr_line string ,
+inq_last_6mths tinyint ,
+mths_since_last_delinq int ,
+mths_since_last_record int ,
+open_acc int ,
+pub_rec tinyint ,
+revol_bal decimal(10,0) ,
+revol_util string ,
+total_acc int ,
+initial_list_status string ,
+out_prncp decimal(10,2) ,
+out_prncp_inv decimal(10,2) ,
+total_pymnt decimal(10,2) ,
+total_pymnt_inv decimal(10,2) ,
+total_rec_prncp decimal(10,2) ,
+total_rec_int decimal(10,2) ,
+total_rec_late_fee decimal(10,10) ,
+recoveries decimal(10,2) ,
+collection_recovery_fee decimal(10,10) ,
+last_pymnt_d string ,
+last_pymnt_amnt decimal(10,2) ,
+next_pymnt_d string ,
+last_credit_pull_d string ,
+collections_12_mths_ex_med tinyint ,
+mths_since_last_major_derog int ,
+policy_code tinyint
+) 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ","
+STORED AS TEXTFILE 
+LOCATION "hdfs://ares-lvs-nn-ha/user/hive/warehouse/loan_data/"
+;
+
+
+--Data copy:
+sed -ie '1d' loan_data.csv
+hadoop fs -copyFromLocal /home/makv/loan_data.csv hdfs://ares-lvs-nn-ha/user/hive/warehouse/loan_data/
+
+
+SELECT
+  count(1)
+FROM (
+  SELECT DISTINCT id FROM makv.loan_data
+) t
+;  
+--188123
+
+
